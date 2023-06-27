@@ -89,7 +89,7 @@
      <attribute name="title">
       <string>MEMBER</string>
      </attribute>
-     <widget class="QTableView" name="studentTable">
+     <widget class="QTableView" name="memberTable">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -131,7 +131,7 @@ color: rgb(255, 255, 255);</string>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="studentLineEdit">
+        <widget class="QLineEdit" name="memberLineEdit">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(238, 238, 238)</string>
          </property>
@@ -142,7 +142,7 @@ color: rgb(255, 255, 255);</string>
           <number>250</number>
          </property>
          <property name="placeholderText">
-          <string>Input Student ID For Searching</string>
+          <string>Input member ID For Searching</string>
          </property>
         </widget>
        </item>
@@ -159,7 +159,7 @@ color: rgb(255, 255, 255);</string>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QPushButton" name="addButtonStudent">
+        <widget class="QPushButton" name="addButtonmember">
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
@@ -177,7 +177,7 @@ color: rgb(255, 255, 255);</string>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="addButtonStudent_2">
+        <widget class="QPushButton" name="addButtonmember_2">
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
@@ -195,7 +195,7 @@ color: rgb(255, 255, 255);</string>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="deleteButtonStudent">
+        <widget class="QPushButton" name="deleteButtonmember">
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
@@ -258,7 +258,7 @@ color: rgb(255, 255, 255);</string>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="studentLineEdit_2">
+        <widget class="QLineEdit" name="memberLineEdit_2">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(238, 238, 238)</string>
          </property>
@@ -269,7 +269,7 @@ color: rgb(255, 255, 255);</string>
           <number>500</number>
          </property>
          <property name="placeholderText">
-          <string>Input Student ID For Searching</string>
+          <string>Input member ID For Searching</string>
          </property>
         </widget>
        </item>
@@ -298,7 +298,7 @@ color: rgb(255, 255, 255);</string>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="addButtonStudent_3">
+        <widget class="QPushButton" name="addButtonmember_3">
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
