@@ -122,10 +122,10 @@ def deleteAvailableAmenities(values):
 
 
 def queryCustomerTable():
-    sql = "SELECT * FROM customer"
+    sql = "SELECT *, TIMESTAMPDIFF(YEAR, BirthDate, CURDATE()) AS age FROM customer"
     cursor.execute(sql)
     rows = cursor.fetchall()
-    #print(rows)
+    print(rows)
     return rows
 
 def queryPlansTable():

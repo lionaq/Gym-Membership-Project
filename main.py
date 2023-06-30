@@ -2,6 +2,7 @@ from GSIS_GUI import Ui_GSIS, customerAddWindow,  show_error_message, trainerAdd
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt, QDate, QSortFilterProxyModel, QStringListModel
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
+from datetime import date
 import mySQLconnection as mysql
 
 
@@ -448,7 +449,7 @@ class function(Ui_GSIS):
 
     def displayCustomerTable(self, rows):
         # Set the column headers
-        headers = ["CustomerID", "Name", "Gender", "Weight", "Height", "PlanName", "StartDate", "EndDate", "ContactNo", "BirthDate"]
+        headers = ["CustomerID", "Name", "Gender", "Weight", "Height", "PlanName", "StartDate", "EndDate", "ContactNo", "BirthDate", "Age"]
         self.modelCustomer.setHorizontalHeaderLabels(headers)
         self.customerTable.setColumnWidth(1,300)
         for row in rows:
@@ -558,6 +559,21 @@ class MultiColumnFilterProxyModel(QSortFilterProxyModel):
 
         return False
 
+def calculate_age(date_string):
+    # Convert the date string to a date object
+    birth_date = date.fromisoformat(date_string)
+
+    # Get the current date
+    current_date = date.today()
+
+    # Calculate the age
+    age = current_date.year - birth_date.year
+
+    # Adjust the age if the current date hasn't reached the birth month and day yet
+    if current_date.month < birth_date.month or (current_date.month == birth_date.month and current_date.day < birth_date.day):
+        age -= 1
+
+    return age
 
 
 
