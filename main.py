@@ -1,6 +1,6 @@
 from GSIS_GUI import Ui_GSIS, customerAddWindow,  show_error_message, trainerAddWindow, amenityAddWindow, planAddWindow, availableAmenitiesClass, availableAmenitiesPopUp
 from PyQt6 import QtWidgets
-from PyQt6.QtCore import Qt, QDate, QSortFilterProxyModel
+from PyQt6.QtCore import Qt, QDate, QSortFilterProxyModel, QStringListModel
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
 import mySQLconnection as mysql
 
@@ -16,6 +16,7 @@ class function(Ui_GSIS):
         self.modelPlans = QStandardItemModel()
         self.modelTrainers = QStandardItemModel()
         self.modelAmenities = QStandardItemModel()
+        self.availableAmenitiesModel = QStringListModel()
         self.searchLineInit()
         self.updateCustomerTable()
         self.updatePlansTable()
@@ -35,9 +36,11 @@ class function(Ui_GSIS):
         self.deletePlansButton.clicked.connect(self.deleteRowPlans)
         self.customerTable.doubleClicked.connect(self.editCustomerPopUp)
         self.trainerTable.doubleClicked.connect(self.editTrainerPopUp)
-        #self.plansTable.doubleClicked.connect(self.editPlanPopUp)
+        self.plansTable.doubleClicked.connect(self.editPlanPopUp)
         self.amenitiesTable.doubleClicked.connect(self.editAmenityPopUp)
-        self.plansTable.doubleClicked.connect(self.availableAmenities)
+        #self.plansTable.doubleClicked.connect(self.availableAmenities)
+        self.addAvailableAmenities.clicked.connect(self.addAvailableAmenitiesPopUp)
+        self.deleteAvailableAmenities.clicked.connect(self.deleteRowAvailableAmenities)
 
 
     def availableAmenities(self):
@@ -52,25 +55,32 @@ class function(Ui_GSIS):
         print(data)
         displayWindow.availableAmenitiesModel.setStringList(data)
 
-        if displayWindow.exec() == 1:
-            print("SUCCESS")
+
+    def updateAvailableAmenitiesList(self):
             data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
             print(data)
-            displayWindow.availableAmenitiesModel.setStringList(data)
-
+            self.availableAmenitiesModel.setStringList(data)
 
     def addAvailableAmenitiesPopUp(self):
+
+        if not self.plansPK:
+            show_error_message("No Plans Selected")
+            return 0
+        
         inputWindow = availableAmenitiesPopUp()
 
         items = [item[0] for item in mysql.queryAmenitiesTable()]
         for item in items:
-            inputWindow.amenitiesComboBox.addItem(item)
+            if item not in self.availableAmenitiesModel.stringList():
+                inputWindow.amenitiesComboBox.addItem(item)
 
         if inputWindow.exec() == 1:
             data = [self.plansPK[0]]
             data.append(inputWindow.return_info())
             print(data)
-            mysql.insertAvailableAmenitiesTable(data)
+            if inputWindow.amenitiesComboBox.count() != 0:
+                mysql.insertAvailableAmenitiesTable(data)
+                self.updateAvailableAmenitiesList()
 
 
     def cellSelectedCustomer(self):
@@ -118,6 +128,11 @@ class function(Ui_GSIS):
             row_data.append(item)
 
         self.plansPK = row_data
+        self.availableAmenitiesLabel.setText(self.plansPK[0].upper())
+        data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
+        print(data)
+        self.availableAmenitiesModel.setStringList(data)
+        self.listView.setModel(self.filterAvailableAmenitiesModel)
 
     def cellSelectedAmenity(self):
         selected_indexes = self.amenitiesTable.selectedIndexes()
@@ -196,6 +211,11 @@ class function(Ui_GSIS):
             return
         mysql.deleteAmenityTableRow(self.amenitiesPK[0])
         self.updateAmenitiesTable()
+        self.availableAmenitiesLabel.setText(self.plansPK[0].upper())
+        data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
+        print(data)
+        self.availableAmenitiesModel.setStringList(data)
+        self.listView.setModel(self.filterAvailableAmenitiesModel)
 
     def deleteRowPlans(self):
         if self.plansPK == []:
@@ -204,6 +224,20 @@ class function(Ui_GSIS):
         self.updatePlansTable()
         self.updateCustomerTable()
         self.updateTrainersTable()
+    
+    def deleteRowAvailableAmenities(self):
+        selected_index = self.listView.currentIndex()
+        
+        if selected_index.isValid():
+            # Get the row number of the selected item
+            row = selected_index.row()
+            
+            # Remove the item from the model
+            item_text = self.availableAmenitiesModel.data(self.availableAmenitiesModel.index(row), role= Qt.ItemDataRole.DisplayRole)
+            self.availableAmenitiesModel.removeRow(row)
+            mysql.deleteAvailableAmenities([self.plansPK[0], item_text])
+            # Refresh the view to reflect the changes
+            self.listView.update()
 
     # EDIT
     def editCustomerPopUp(self):
@@ -303,6 +337,8 @@ class function(Ui_GSIS):
                 mysql.updatePlanTable(data)
                 self.updatePlansTable()
                 self.updateTrainersTable()
+                self.plansPK[0] = data[0]
+                self.availableAmenitiesLabel.setText(self.plansPK[0].upper())
    
     
     def editAmenityPopUp(self):
@@ -327,8 +363,8 @@ class function(Ui_GSIS):
             if bool != True and data!= 0:
                 mysql.updateAmenitiesTable(data)
                 self.updateAmenitiesTable()
+                self.updateAvailableAmenitiesList()
    
-
 
     # ADD  
     def addCustomerPopUp(self):
@@ -387,10 +423,7 @@ class function(Ui_GSIS):
             if self.duplicatePlansChecker(data[0]) != True and data != 0:
                 mysql.insertPlanTable(data)
                 self.updatePlansTable()
-
-
-
-
+    #UPDATE
 
     def updateCustomerTable(self):
             self.modelCustomer.clear()
@@ -496,6 +529,11 @@ class function(Ui_GSIS):
         self.filterAmenitiesModel.setSourceModel(self.modelAmenities)
         self.amenitiesTable.setModel(self.filterAmenitiesModel)
         self.amenitiesButtonLineEdit.textChanged.connect(self.filterAmenitiesModel.setSearchText)
+
+        self.filterAvailableAmenitiesModel = QSortFilterProxyModel()
+        self.filterAvailableAmenitiesModel.setSourceModel(self.availableAmenitiesModel)
+        self.filterAmenitiesModel.setFilterKeyColumn(0)
+        self.availableAmenitiesSearch.textChanged.connect(self.filterAvailableAmenitiesModel.setFilterRegularExpression)
 
     
 class MultiColumnFilterProxyModel(QSortFilterProxyModel):

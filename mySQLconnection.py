@@ -110,7 +110,14 @@ def deletePlansTableRow(values):
 
     print(values)
     cursor.execute(sql, (values,))
-    connection.commit() 
+    connection.commit()
+
+def deleteAvailableAmenities(values):
+    if values:
+        sql = "DELETE FROM availableamenities WHERE PlanName = %s AND Amenity = %s"
+        print(values)
+        cursor.execute(sql, values)
+        connection.commit()
 
 
 

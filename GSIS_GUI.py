@@ -7,9 +7,9 @@
 
 
 from PyQt6 import QtCore, QtWidgets, QtGui
-from PyQt6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QComboBox, QDialog, QMessageBox, QDateEdit, QPushButton, QListView
+from PyQt6.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QComboBox, QDialog, QMessageBox, QDateEdit, QPushButton
 from PyQt6.QtGui import QIntValidator, QDoubleValidator
-from PyQt6.QtCore import QDate, QStringListModel
+from PyQt6.QtCore import QDate
 
 
 def show_error_message(message):
@@ -595,7 +595,7 @@ class planAddWindow(QDialog):
         # Create line edits
         self.planName_lineEdit = QLineEdit()
         self.pricing_lineEdit = QLineEdit()
-
+        self.pricing_lineEdit.setValidator(QIntValidator())
         # Create a confirm button
         self.confirm_button = QPushButton("Confirm")
         self.confirm_button.clicked.connect(self.accept)
@@ -633,9 +633,6 @@ class availableAmenitiesClass(QDialog):
         self.PlanName_label = QLabel("Available Amenities:")
         self.addAvailableAmenities = QPushButton("ADD AMENITIES")
         self.deleteAvailableAmenities = QPushButton("DELETE AMENITIES")
-
-        self.availableAmenitiesList = QListView()
-        self.availableAmenitiesModel = QStringListModel()
 
         self.availableAmenitiesList.setModel(self.availableAmenitiesModel)
 
