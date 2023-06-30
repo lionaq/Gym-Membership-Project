@@ -154,3 +154,7 @@ def queryAvailableAmenitiesTable(value):
     rows = cursor.fetchall()
     #print(rows)
     return rows
+
+def closeConnection():
+    cursor.close()
+    connection.close()
