@@ -120,7 +120,6 @@ def deleteAvailableAmenities(values):
         connection.commit()
 
 
-
 def queryCustomerTable():
     sql = "SELECT *, TIMESTAMPDIFF(YEAR, BirthDate, CURDATE()) AS age FROM customer"
     cursor.execute(sql)
