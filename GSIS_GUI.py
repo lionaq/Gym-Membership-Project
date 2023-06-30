@@ -621,41 +621,6 @@ class planAddWindow(QDialog):
         else:
             show_error_message("BLANK FIELDS, TRY AGAIN")
             return 0
-
-
-class availableAmenitiesClass(QDialog):
-    def __init__(self):
-        super().__init__()
-
-        self.setWindowTitle("Available Amenities")
-
-        # Create labels
-        self.PlanName_label = QLabel("Available Amenities:")
-        self.addAvailableAmenities = QPushButton("ADD AMENITIES")
-        self.deleteAvailableAmenities = QPushButton("DELETE AMENITIES")
-
-        self.availableAmenitiesList.setModel(self.availableAmenitiesModel)
-
-        # Create a layout for the input window
-        layout = QVBoxLayout()
-        self.setLayout(layout)
-
-        # Add the labels, line edits, and confirm button to the layout
-        layout.addWidget(self.addAvailableAmenities)
-        layout.addWidget(self.deleteAvailableAmenities)
-        layout.addWidget(self.PlanName_label)
-        layout.addWidget(self.availableAmenitiesList)
-        self.setLayout(layout)
-
-    def return_info(self):
-        planName = self.planName_lineEdit.text()
-        pricing = self.pricing_lineEdit.text()
-
-        if len(planName.strip()) >= 1 and len(pricing.strip()) >= 1:
-            return [planName, pricing]
-        else:
-            show_error_message("BLANK FIELDS, TRY AGAIN")
-            return 0
         
 class availableAmenitiesPopUp(QDialog):
     def __init__(self):

@@ -39,23 +39,8 @@ class function(Ui_GSIS):
         self.trainerTable.doubleClicked.connect(self.editTrainerPopUp)
         self.plansTable.doubleClicked.connect(self.editPlanPopUp)
         self.amenitiesTable.doubleClicked.connect(self.editAmenityPopUp)
-        #self.plansTable.doubleClicked.connect(self.availableAmenities)
         self.addAvailableAmenities.clicked.connect(self.addAvailableAmenitiesPopUp)
         self.deleteAvailableAmenities.clicked.connect(self.deleteRowAvailableAmenities)
-
-
-    def availableAmenities(self):
-        displayWindow = availableAmenitiesClass()
-        displayWindow.setWindowTitle(f"{self.plansPK[0].upper()} PLAN")
-        displayWindow.PlanName_label.setText(f"Available Amenities in {self.plansPK[0]} Plan:")
-        displayWindow.addAvailableAmenities.setText(f"ADD AMENITIES FOR {self.plansPK[0].upper()} PLAN")
-        displayWindow.deleteAvailableAmenities.setText(f"DELETE AMENITIES FOR {self.plansPK[0].upper()} PLAN")
-        displayWindow.addAvailableAmenities.clicked.connect(self.addAvailableAmenitiesPopUp)
-
-        data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
-        print(data)
-        displayWindow.availableAmenitiesModel.setStringList(data)
-
 
     def updateAvailableAmenitiesList(self):
             data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
