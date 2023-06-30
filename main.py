@@ -146,6 +146,18 @@ class function(Ui_GSIS):
             
         return False
     
+    def duplicateContactNoChecker(self, stringVal):
+        list = [item[8] for item in mysql.queryCustomerTable()]
+        for row in list:
+            #print(row)
+            if row == stringVal:
+                show_error_message("CONTACT NUMBER ALREADY EXISTS")
+                return True
+            
+        return False
+
+
+    
     def duplicateTrainerChecker(self, stringVal):
         list = [item[0] for item in mysql.queryTrainersTable()]
         for row in list:
@@ -234,7 +246,8 @@ class function(Ui_GSIS):
     # EDIT
     def editCustomerPopUp(self):
         inputWindow = customerAddWindow()
-        bool = False
+        boolPK = False
+        boolContactNo = False
 
         items = [item[0] for item in mysql.queryPlansTable()]
         for item in items:
@@ -268,9 +281,13 @@ class function(Ui_GSIS):
 
             if data[0] != self.customerPK[0]:
                 #print("SAME CUSTOMER ID")
-                bool = self.duplicateCustomerChecker(data[0])
+                boolPK = self.duplicateCustomerChecker(data[0])
 
-            if bool != True and data!= 0:
+            if data[8] != self.customerPK[8]:
+                #print("SAME CUSTOMER ID")
+                boolContactNo = self.duplicateContactNoChecker(data[8])
+
+            if boolPK != True and boolContactNo != True and data!= 0:
                 mysql.updateCustomerTable(data)
                 self.updateCustomerTable()
 
@@ -370,7 +387,7 @@ class function(Ui_GSIS):
             data = inputWindow.return_info()
             if data == 0:
                 return
-            if self.duplicateCustomerChecker(data[0]) != True and data != 0:
+            if self.duplicateCustomerChecker(data[0]) != True and data != 0 and self.duplicateContactNoChecker(data[8]) != True:
                 mysql.insertCustomerTable(data)
                 self.updateCustomerTable()
 
