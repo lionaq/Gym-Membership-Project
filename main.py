@@ -111,7 +111,7 @@ class function(Ui_GSIS):
 
         self.amenitiesPK = row_data
 
-    # Duplicate Checker
+    # DUPLICATE CHECKER
 
     def duplicateCustomerChecker(self, stringVal):
         list = [item[0] for item in mysql.queryCustomerTable()]
@@ -352,8 +352,8 @@ class function(Ui_GSIS):
                 self.updateAmenitiesTable()
                 self.updateAvailableAmenitiesList()
    
-
     # ADD  
+
     def addCustomerPopUp(self):
         inputWindow = customerAddWindow()
         items = [item[0] for item in mysql.queryPlansTable()]
@@ -432,11 +432,6 @@ class function(Ui_GSIS):
                 mysql.insertAvailableAmenitiesTable(data)
                 self.updateAvailableAmenitiesList()
     
-    
-    
-    
-    
-    
     #UPDATE TABLE
 
     def updateCustomerTable(self):
@@ -463,7 +458,6 @@ class function(Ui_GSIS):
             data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
             print(data)
             self.availableAmenitiesModel.setStringList(data)
-
 
     # DISPLAY TABLE
 
@@ -527,8 +521,7 @@ class function(Ui_GSIS):
             self.modelAmenities.appendRow(item_row)
         return self.modelCustomer
 
-
-    # Search
+    # SEARCH
 
     def searchLineInit(self):
         self.filterCustomerModel = MultiColumnFilterProxyModel()
@@ -595,8 +588,6 @@ def calculate_age(date_string):
         age -= 1
 
     return age
-
-
 
 if __name__ == "__main__":
     import sys
