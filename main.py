@@ -42,32 +42,8 @@ class function(Ui_GSIS):
         self.addAvailableAmenities.clicked.connect(self.addAvailableAmenitiesPopUp)
         self.deleteAvailableAmenities.clicked.connect(self.deleteRowAvailableAmenities)
 
-    def updateAvailableAmenitiesList(self):
-            data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
-            print(data)
-            self.availableAmenitiesModel.setStringList(data)
 
-    def addAvailableAmenitiesPopUp(self):
-
-        if not self.plansPK:
-            show_error_message("No Plans Selected")
-            return 0
-        
-        inputWindow = availableAmenitiesPopUp()
-
-        items = [item[0] for item in mysql.queryAmenitiesTable()]
-        for item in items:
-            if item not in self.availableAmenitiesModel.stringList():
-                inputWindow.amenitiesComboBox.addItem(item)
-
-        if inputWindow.exec() == 1:
-            data = [self.plansPK[0]]
-            data.append(inputWindow.return_info())
-            print(data)
-            if inputWindow.amenitiesComboBox.count() != 0:
-                mysql.insertAvailableAmenitiesTable(data)
-                self.updateAvailableAmenitiesList()
-
+    # Cell Section
 
     def cellSelectedCustomer(self):
         selected_indexes = self.customerTable.selectedIndexes()
@@ -135,6 +111,7 @@ class function(Ui_GSIS):
 
         self.amenitiesPK = row_data
 
+    # Duplicate Checker
 
     def duplicateCustomerChecker(self, stringVal):
         list = [item[0] for item in mysql.queryCustomerTable()]
@@ -433,7 +410,34 @@ class function(Ui_GSIS):
             if self.duplicatePlansChecker(data[0]) != True and data != 0:
                 mysql.insertPlanTable(data)
                 self.updatePlansTable()
-    #UPDATE
+
+    def addAvailableAmenitiesPopUp(self):
+
+        if not self.plansPK:
+            show_error_message("No Plans Selected")
+            return 0
+        
+        inputWindow = availableAmenitiesPopUp()
+
+        items = [item[0] for item in mysql.queryAmenitiesTable()]
+        for item in items:
+            if item not in self.availableAmenitiesModel.stringList():
+                inputWindow.amenitiesComboBox.addItem(item)
+
+        if inputWindow.exec() == 1:
+            data = [self.plansPK[0]]
+            data.append(inputWindow.return_info())
+            print(data)
+            if inputWindow.amenitiesComboBox.count() != 0:
+                mysql.insertAvailableAmenitiesTable(data)
+                self.updateAvailableAmenitiesList()
+    
+    
+    
+    
+    
+    
+    #UPDATE TABLE
 
     def updateCustomerTable(self):
             self.modelCustomer.clear()
@@ -455,6 +459,13 @@ class function(Ui_GSIS):
             self.displayAmenitiesTable(mysql.queryAmenitiesTable())
             self.amenitiesTable.setModel(self.filterAmenitiesModel)
 
+    def updateAvailableAmenitiesList(self):
+            data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
+            print(data)
+            self.availableAmenitiesModel.setStringList(data)
+
+
+    # DISPLAY TABLE
 
     def displayCustomerTable(self, rows):
         # Set the column headers
@@ -545,6 +556,7 @@ class function(Ui_GSIS):
         self.filterAmenitiesModel.setFilterKeyColumn(0)
         self.availableAmenitiesSearch.textChanged.connect(self.filterAvailableAmenitiesModel.setFilterRegularExpression)
 
+#MISC
     
 class MultiColumnFilterProxyModel(QSortFilterProxyModel):
     def __init__(self, parent=None):
