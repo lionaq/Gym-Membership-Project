@@ -7,7 +7,7 @@ The purpose of this project is to acquire the gym client’s information which i
 
 # Features:
 
-*The owner can browse the list of customers, trainers, amenities, and gym membership plans.
-*The owner can add, view and edit new customers, trainers, gym membership plans and amenities.
-*The owner can view and edit the customers’ personal information like name, contact number, age, gender, weight and height.
-*The owner can set the start date and end date for each customer that avails for a Gym Membership Plan
+* The owner can browse the list of customers, trainers, amenities, and gym membership plans.
+* The owner can add, view and edit new customers, trainers, gym membership plans and amenities.
+* The owner can view and edit the customers’ personal information like name, contact number, age, gender, weight and height.
+* The owner can set the start date and end date for each customer that avails for a Gym Membership Plan
