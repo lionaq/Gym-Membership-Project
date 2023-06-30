@@ -430,7 +430,7 @@ class customerAddWindow(QDialog):
 
         # creat combo box
         self.gender_combo_box = QComboBox()
-        self.gender_combo_box.addItems(["M", "F", "O"])
+        self.gender_combo_box.addItems(["Male", "Female", "Other"])
         self.confirm_button = QtWidgets.QPushButton("Confirm")
         self.confirm_button.clicked.connect(self.accept)
 
@@ -483,7 +483,7 @@ class customerAddWindow(QDialog):
             return 0
         
         list = [self.customerID_lineEdit.text(),
-                self.customerName_lineEdit.text(),
+                self.customerName_lineEdit.text().capitalize(),
                 self.gender_combo_box.currentText(),
                 float(self.weight_lineEdit.text()),
                 int(self.height_lineEdit.text()),
@@ -547,7 +547,7 @@ class trainerAddWindow(QDialog):
     def return_info(self):
         data = [
             self.trainerID_lineEdit.text(),
-            self.trainerName_lineEdit.text(),
+            self.trainerName_lineEdit.text().capitalize(),
             self.PlanName_combo_box.currentText()
         ]
         

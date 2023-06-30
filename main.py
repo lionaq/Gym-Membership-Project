@@ -346,6 +346,7 @@ class function(Ui_GSIS):
                 mysql.updatePlanTable(data)
                 self.updatePlansTable()
                 self.updateTrainersTable()
+                self.updateCustomerTable()
                 self.plansPK[0] = data[0]
                 self.availableAmenitiesLabel.setText(self.plansPK[0].upper())
    
