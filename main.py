@@ -212,11 +212,12 @@ class function(Ui_GSIS):
             return
         mysql.deleteAmenityTableRow(self.amenitiesPK[0])
         self.updateAmenitiesTable()
-        self.availableAmenitiesLabel.setText(self.plansPK[0].upper())
-        data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
-        print(data)
-        self.availableAmenitiesModel.setStringList(data)
-        self.listView.setModel(self.filterAvailableAmenitiesModel)
+        if self.plansPK[0] != []:
+            self.availableAmenitiesLabel.setText(self.plansPK[0].upper())
+            data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
+            print(data)
+            self.availableAmenitiesModel.setStringList(data)
+            self.listView.setModel(self.filterAvailableAmenitiesModel)
 
     def deleteRowPlans(self):
         if self.plansPK == []:
