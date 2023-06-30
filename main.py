@@ -212,7 +212,7 @@ class function(Ui_GSIS):
             if popUp.exec() == 1:
                 mysql.deleteAmenityTableRow(self.amenitiesPK[0])
                 self.updateAmenitiesTable()
-                if self.plansPK[0] != []:
+                if self.plansPK != []:
                     self.availableAmenitiesLabel.setText(self.plansPK[0].upper())
                     data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
                     print(data)

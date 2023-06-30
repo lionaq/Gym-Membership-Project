@@ -405,14 +405,16 @@ class customerAddWindow(QDialog):
         self.customerName_lineEdit = QLineEdit()
         self.customerName_lineEdit.setMaxLength(100)
         self.weight_lineEdit = QLineEdit()
-        self.weight_lineEdit.setValidator(QDoubleValidator())
-        self.weight_lineEdit.setMaxLength(3)
+        self.weight_lineEdit.setValidator(QIntValidator())
+        self.weight_lineEdit.setMaxLength(6)
         self.height_lineEdit = QLineEdit()
         self.height_lineEdit.setValidator(QIntValidator())
         self.height_lineEdit.setMaxLength(3)
         self.contactNo_lineEdit = QLineEdit()
         self.contactNo_lineEdit.setValidator(QIntValidator())
         self.contactNo_lineEdit.setMaxLength(11)
+
+        self.weight_lineEdit.textEdited.connect(self.add_dash)
 
         # Create date edits
         self.startDate_edit = QDateEdit()
@@ -464,7 +466,17 @@ class customerAddWindow(QDialog):
         layout.addWidget(self.confirm_button)
         layout.addWidget(self.confirm_button)
         self.setLayout(layout)
-        
+
+    def add_dash(self, text):
+        # Remove any existing dashes from the text
+        text = text.replace(".", "")
+        # Insert a dash after the 5th character
+        if len(text) >= 4:
+            text = text[:3] + "." + text[3:]
+
+        # Set the updated text in the line edit
+        self.weight_lineEdit.setText(text)
+
     def return_info(self):
         if len(self.weight_lineEdit.text()) < 1 or len(self.height_lineEdit.text()) < 1:
             show_error_message("BLANK FIELDS, TRY AGAIN")
@@ -508,7 +520,7 @@ class trainerAddWindow(QDialog):
         # Create line edits
         self.trainerID_lineEdit = QLineEdit()
         self.trainerID_lineEdit.setValidator(QIntValidator())
-        self.trainerID_lineEdit.setMaxLength(6)
+        self.trainerID_lineEdit.setMaxLength(7)
         self.trainerName_lineEdit = QLineEdit()
         self.trainerName_lineEdit.setMaxLength(100)
 
@@ -574,7 +586,7 @@ class amenityAddWindow(QDialog):
         self.setLayout(layout)
 
     def return_info(self):
-        amenityType = self.amenity_lineEdit.text()
+        amenityType = self.amenity_lineEdit.text().capitalize()
 
         if len(amenityType.strip()) >= 1:
             return [amenityType]
@@ -613,7 +625,7 @@ class planAddWindow(QDialog):
         self.setLayout(layout)
 
     def return_info(self):
-        planName = self.planName_lineEdit.text()
+        planName = self.planName_lineEdit.text().capitalize()
         pricing = self.pricing_lineEdit.text()
 
         if len(planName.strip()) >= 1 and len(pricing.strip()) >= 1:
