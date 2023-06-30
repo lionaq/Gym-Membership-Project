@@ -621,6 +621,26 @@ class planAddWindow(QDialog):
         else:
             show_error_message("BLANK FIELDS, TRY AGAIN")
             return 0
+
+class deletePopUp(QDialog):
+
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Delete")
+
+        self.deleteLabel = QLabel("Confirm Deletion?")
+        
+        self.confirm_button = QtWidgets.QPushButton("Confirm")
+        self.confirm_button.clicked.connect(self.accept)
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        layout.addWidget(self.deleteLabel)
+        layout.addWidget(self.confirm_button)
+        self.setLayout(layout)
+
         
 class availableAmenitiesPopUp(QDialog):
     def __init__(self):
@@ -650,3 +670,4 @@ class availableAmenitiesPopUp(QDialog):
             return self.amenitiesComboBox.currentText()
         else:
             return 0
+            

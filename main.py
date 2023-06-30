@@ -1,4 +1,4 @@
-from GSIS_GUI import Ui_GSIS, customerAddWindow,  show_error_message, trainerAddWindow, amenityAddWindow, planAddWindow, availableAmenitiesClass, availableAmenitiesPopUp
+from GSIS_GUI import Ui_GSIS, customerAddWindow,  show_error_message, trainerAddWindow, amenityAddWindow, planAddWindow, availableAmenitiesPopUp, deletePopUp
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt, QDate, QSortFilterProxyModel, QStringListModel
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
@@ -179,52 +179,57 @@ class function(Ui_GSIS):
     # Delete function
 
     def deleteRowCustomer(self):
-        if self.customerPK == []:
-            return
-        mysql.deleteCustomerTableRow(self.customerPK[0])
-        self.updateCustomerTable()
+        if self.customerPK != []:
+            popUp = deletePopUp()
+            if popUp.exec() == 1:
+                mysql.deleteCustomerTableRow(self.customerPK[0])
+                self.updateCustomerTable()
 
 
     def deleteRowTrainer(self):
-        if self.trainerPK == []:
-            return
-        mysql.deleteTrainersTableRow(self.trainerPK[0])
-        self.updateTrainersTable()
+        if self.trainerPK != []:
+            popUp = deletePopUp()
+            if popUp.exec() == 1:
+                mysql.deleteTrainersTableRow(self.trainerPK[0])
+                self.updateTrainersTable()
 
 
     def deleteRowAmenities(self):
-        if self.amenitiesPK == []:
-            return
-        mysql.deleteAmenityTableRow(self.amenitiesPK[0])
-        self.updateAmenitiesTable()
-        if self.plansPK[0] != []:
-            self.availableAmenitiesLabel.setText(self.plansPK[0].upper())
-            data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
-            print(data)
-            self.availableAmenitiesModel.setStringList(data)
-            self.listView.setModel(self.filterAvailableAmenitiesModel)
+        if self.amenitiesPK != []:
+            popUp = deletePopUp()
+            if popUp.exec() == 1:
+                mysql.deleteAmenityTableRow(self.amenitiesPK[0])
+                self.updateAmenitiesTable()
+                if self.plansPK[0] != []:
+                    self.availableAmenitiesLabel.setText(self.plansPK[0].upper())
+                    data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
+                    print(data)
+                    self.availableAmenitiesModel.setStringList(data)
+                    self.listView.setModel(self.filterAvailableAmenitiesModel)
 
     def deleteRowPlans(self):
-        if self.plansPK == []:
-            return
-        mysql.deletePlansTableRow(self.plansPK[0])
-        self.updatePlansTable()
-        self.updateCustomerTable()
-        self.updateTrainersTable()
+
+        if self.plansPK != []:
+            popUp = deletePopUp()
+            if popUp.exec() == 1:
+                mysql.deletePlansTableRow(self.plansPK[0])
+                self.updatePlansTable()
+                self.updateCustomerTable()
+                self.updateTrainersTable()
     
     def deleteRowAvailableAmenities(self):
-        selected_index = self.listView.currentIndex()
-        
-        if selected_index.isValid():
-            # Get the row number of the selected item
-            row = selected_index.row()
-            
-            # Remove the item from the model
-            item_text = self.availableAmenitiesModel.data(self.availableAmenitiesModel.index(row), role= Qt.ItemDataRole.DisplayRole)
-            self.availableAmenitiesModel.removeRow(row)
-            mysql.deleteAvailableAmenities([self.plansPK[0], item_text])
-            # Refresh the view to reflect the changes
-            self.listView.update()
+
+        if self.amenitiesPK != []:
+            popUp = deletePopUp()
+            if popUp.exec() == 1:
+                selected_index = self.listView.currentIndex()
+                
+                if selected_index.isValid():
+                    row = selected_index.row()
+                    item_text = self.availableAmenitiesModel.data(self.availableAmenitiesModel.index(row), role= Qt.ItemDataRole.DisplayRole)
+                    self.availableAmenitiesModel.removeRow(row)
+                    mysql.deleteAvailableAmenities([self.plansPK[0], item_text])
+                    self.listView.update()
 
     # EDIT
     def editCustomerPopUp(self):
