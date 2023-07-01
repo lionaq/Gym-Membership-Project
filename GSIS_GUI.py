@@ -405,7 +405,7 @@ class customerAddWindow(QDialog):
         self.customerName_lineEdit = QLineEdit()
         self.customerName_lineEdit.setMaxLength(100)
         self.weight_lineEdit = QLineEdit()
-        self.weight_lineEdit.setValidator(QIntValidator())
+        self.weight_lineEdit.setValidator(QDoubleValidator())
         self.weight_lineEdit.setMaxLength(6)
         self.height_lineEdit = QLineEdit()
         self.height_lineEdit.setValidator(QIntValidator())
@@ -414,7 +414,7 @@ class customerAddWindow(QDialog):
         self.contactNo_lineEdit.setValidator(QIntValidator())
         self.contactNo_lineEdit.setMaxLength(11)
 
-        self.weight_lineEdit.textEdited.connect(self.add_dash)
+        self.weight_lineEdit.textEdited.connect(self.removeE)
 
         # Create date edits
         self.startDate_edit = QDateEdit()
@@ -467,14 +467,9 @@ class customerAddWindow(QDialog):
         layout.addWidget(self.confirm_button)
         self.setLayout(layout)
 
-    def add_dash(self, text):
+    def removeE(self, text):
         # Remove any existing dashes from the text
-        text = text.replace(".", "")
-        # Insert a dash after the 5th character
-        if len(text) >= 4:
-            text = text[:3] + "." + text[3:]
-
-        # Set the updated text in the line edit
+        text = text.replace("e", "")
         self.weight_lineEdit.setText(text)
 
     def return_info(self):
