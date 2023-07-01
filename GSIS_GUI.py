@@ -603,6 +603,7 @@ class planAddWindow(QDialog):
         self.planName_lineEdit = QLineEdit()
         self.pricing_lineEdit = QLineEdit()
         self.pricing_lineEdit.setValidator(QIntValidator())
+        self.pricing_lineEdit.setMaxLength(5)
         # Create a confirm button
         self.confirm_button = QPushButton("Confirm")
         self.confirm_button.clicked.connect(self.accept)
