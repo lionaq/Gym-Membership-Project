@@ -470,6 +470,7 @@ class customerAddWindow(QDialog):
     def removeE(self, text):
         # Remove any existing dashes from the text
         text = text.replace("e", "")
+        text = text.replace(",", "")
         self.weight_lineEdit.setText(text)
 
     def return_info(self):
