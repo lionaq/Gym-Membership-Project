@@ -455,9 +455,10 @@ class function(Ui_GSIS):
             self.amenitiesTable.setModel(self.filterAmenitiesModel)
 
     def updateAvailableAmenitiesList(self):
-            data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
-            print(data)
-            self.availableAmenitiesModel.setStringList(data)
+            if self.plansPK != []:
+                data = [item[0] for item in mysql.queryAvailableAmenitiesTable([self.plansPK[0]])]
+                print(data)
+                self.availableAmenitiesModel.setStringList(data)
 
     # DISPLAY TABLE
 
@@ -480,7 +481,7 @@ class function(Ui_GSIS):
         # Set the column headers
         headers = ["PlanName", "Pricing"]
         self.modelPlans.setHorizontalHeaderLabels(headers)
-        self.plansTable.setColumnWidth(1,300)
+        self.plansTable.setColumnWidth(1,474)
         for row in rows:
             print(row)
             item_row = []
@@ -495,7 +496,7 @@ class function(Ui_GSIS):
         # Set the column headers
         headers = ["TrainerID", "Name", "PlanName"]
         self.modelTrainers.setHorizontalHeaderLabels(headers)
-        self.trainerTable.setColumnWidth(1,300)
+        self.trainerTable.setColumnWidth(1,932)
         for row in rows:
             #print(row)
             item_row = []
@@ -510,7 +511,7 @@ class function(Ui_GSIS):
         # Set the column headers
         headers = ["Amenity"]
         self.modelAmenities.setHorizontalHeaderLabels(headers)
-        self.amenitiesTable.setColumnWidth(1,300)
+        self.amenitiesTable.setColumnWidth(0,1200)
         for row in rows:
             print(row)
             item_row = []
