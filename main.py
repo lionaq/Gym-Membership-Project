@@ -464,7 +464,7 @@ class function(Ui_GSIS):
 
     def displayCustomerTable(self, rows):
         # Set the column headers
-        headers = ["CustomerID", "Name", "Gender", "Weight", "Height", "PlanName", "StartDate", "EndDate", "ContactNo", "BirthDate", "Age"]
+        headers = ["CustomerID", "Name", "Gender", "Weight (kg)", "Height (cm)", "PlanName", "StartDate", "EndDate", "ContactNo", "BirthDate", "Age"]
         self.modelCustomer.setHorizontalHeaderLabels(headers)
         self.customerTable.setColumnWidth(1,300)
         for row in rows:
