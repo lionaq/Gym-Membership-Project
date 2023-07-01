@@ -478,7 +478,7 @@ class customerAddWindow(QDialog):
             return 0
         
         list = [self.customerID_lineEdit.text(),
-                self.customerName_lineEdit.text().capitalize(),
+                self.customerName_lineEdit.text().title(),
                 self.gender_combo_box.currentText(),
                 float(self.weight_lineEdit.text()),
                 int(self.height_lineEdit.text()),
@@ -542,7 +542,7 @@ class trainerAddWindow(QDialog):
     def return_info(self):
         data = [
             self.trainerID_lineEdit.text(),
-            self.trainerName_lineEdit.text().capitalize(),
+            self.trainerName_lineEdit.text().title(),
             self.PlanName_combo_box.currentText()
         ]
         
@@ -581,7 +581,7 @@ class amenityAddWindow(QDialog):
         self.setLayout(layout)
 
     def return_info(self):
-        amenityType = self.amenity_lineEdit.text().capitalize()
+        amenityType = self.amenity_lineEdit.text().title()
 
         if len(amenityType.strip()) >= 1:
             return [amenityType]
@@ -621,7 +621,7 @@ class planAddWindow(QDialog):
         self.setLayout(layout)
 
     def return_info(self):
-        planName = self.planName_lineEdit.text().capitalize()
+        planName = self.planName_lineEdit.text().title()
         pricing = self.pricing_lineEdit.text()
 
         if len(planName.strip()) >= 1 and len(pricing.strip()) >= 1:
